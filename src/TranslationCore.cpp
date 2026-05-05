@@ -36,13 +36,20 @@ void TranslationCore::setTimeout(int timeout)
 
 int TranslationCore::translateText(const QString& text, const QString& sourceLanguage, const QString& targetLanguage)
 {
-    // 检查缓存
+    // 检查缓存（未过期）
     QString cacheKey = generateCacheKey(text, sourceLanguage, targetLanguage);
     if (m_translationCache.contains(cacheKey)) {
         TranslationResult cachedResult = m_translationCache[cacheKey];
-        // 直接发射信号，请求ID用-1表示缓存命中
-        emit translationFinished(-1, cachedResult);
-        return -1; // 缓存命中，无实际请求ID
+        qint64 now = QDateTime::currentMSecsSinceEpoch();
+        // 缓存有效期1小时（3600000毫秒）
+        if (cachedResult.timestamp == 0 || (now - cachedResult.timestamp) < 3600000) {
+            // 直接发射信号，请求ID用-1表示缓存命中
+            emit translationFinished(-1, cachedResult);
+            return -1; // 缓存命中，无实际请求ID
+        } else {
+            // 缓存过期，删除
+            m_translationCache.remove(cacheKey);
+        }
     }
     
     QStringList texts;
@@ -155,6 +162,7 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
             QStringList texts = m_requestTexts[requestId];
             QString sourceLang = m_requestSourceLang.value(requestId, "");
             QString targetLang = m_requestTargetLang.value(requestId, "");
+            qint64 now = QDateTime::currentMSecsSinceEpoch();
             
             // 逐个缓存翻译结果
             for (int i = 0; i < texts.size() && i < result.translatedTexts.size(); ++i) {
@@ -162,6 +170,7 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
                 TranslationResult cachedResult = result;
                 cachedResult.translatedText = result.translatedTexts[i];
                 cachedResult.translatedTexts = QStringList() << result.translatedTexts[i];
+                cachedResult.timestamp = now; // 设置缓存时间戳
                 m_translationCache[cacheKey] = cachedResult;
             }
         }

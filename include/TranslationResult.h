@@ -15,6 +15,7 @@ struct TranslationResult {
     int errorCode;                // 错误代码，0表示成功
     QString errorMessage;         // 错误信息
     bool success;                 // 翻译是否成功
+    qint64 timestamp;            // 缓存时间戳（毫秒），0表示无缓存
 
     /**
      * @brief 构造函数
@@ -36,7 +37,8 @@ struct TranslationResult {
           sourceLanguage(sourceLanguage),
           targetLanguage(targetLanguage),
           errorCode(errorCode),
-          errorMessage(errorMessage)
+          errorMessage(errorMessage),
+          timestamp(0)
     {}
 };
 
