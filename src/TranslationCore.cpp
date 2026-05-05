@@ -73,6 +73,9 @@ int TranslationCore::translateTexts(const QStringList& texts, const QString& sou
     QMap<QString, QString> headers;
     headers["Content-Type"] = "application/json";
     
+    // 日志：输出翻译请求信息
+    qDebug() << "[TranslationCore] Translating" << texts.size() << "texts, source:" << sourceLanguage << "target:" << targetLanguage;
+    
     // 发送请求
     int requestId = m_apiClient->post(url.toString(), headers, requestBody);
     
@@ -101,6 +104,9 @@ int TranslationCore::detectLanguage(const QString& text)
     QMap<QString, QString> headers;
     headers["Content-Type"] = "application/json";
     
+    // 日志：输出语言检测请求信息
+    qDebug() << "[TranslationCore] Detecting language for text:" << text.left(50) << "...";
+    
     // 发送请求
     int requestId = m_apiClient->post(url.toString(), headers, requestBody);
     
@@ -112,6 +118,8 @@ int TranslationCore::detectLanguage(const QString& text)
 
 int TranslationCore::testConnection()
 {
+    // 日志：输出连接测试
+    qDebug() << "[TranslationCore] Testing API connection...";
     // 测试连接使用简单的翻译请求
     return translateText("Hello", "", "zh");
 }
@@ -147,6 +155,9 @@ QMap<QString, QString> TranslationCore::getSupportedLanguages()
 
 void TranslationCore::onApiRequestFinished(int requestId, bool success, const QByteArray& response, const QString& error)
 {
+    // 日志：输出API响应信息
+    qDebug() << "[TranslationCore] API request" << requestId << "finished, success:" << success << ", error:" << error;
+    
     if (!m_requestTypeMap.contains(requestId)) {
         return;
     }
@@ -156,6 +167,13 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
     if (requestType == "translate") {
         // 处理翻译响应
         TranslationResult result = parseTranslateResponse(response, requestId);
+        
+        // 日志：输出翻译结果
+        if (result.success) {
+            qDebug() << "[TranslationCore] Translation succeeded, translated" << m_requestTexts.value(requestId).size() << "texts";
+        } else {
+            qDebug() << "[TranslationCore] Translation failed:" << result.errorMessage;
+        }
         
         // 如果翻译成功，存入缓存
         if (result.success && m_requestTexts.contains(requestId)) {
@@ -195,8 +213,10 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
         bool parseSuccess = parseLanguageDetectionResponse(response, languageCode, confidence, errorMessage);
         
         if (parseSuccess) {
+            qDebug() << "[TranslationCore] Language detection succeeded:" << languageCode << "confidence:" << confidence;
             emit languageDetectionFinished(requestId, languageCode, confidence, "");
         } else {
+            qDebug() << "[TranslationCore] Language detection failed:" << errorMessage;
             emit languageDetectionFinished(requestId, "", 0.0f, errorMessage);
         }
     }
