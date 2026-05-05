@@ -121,7 +121,7 @@ void ConfigWindow::initializeUI()
 void ConfigWindow::populateLanguageComboBoxes()
 {
     // 获取支持的语言列表
-    QMap<QString, QString> languages = TranslationCore::getSupportedLanguages();
+    QMap<QString, QString> languages = m_translationCore->getSupportedLanguages();
     
     // 填充源语言下拉框
     m_sourceLanguageComboBox->clear();

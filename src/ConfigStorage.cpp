@@ -84,7 +84,8 @@ bool ConfigStorage::saveApiKeys(const QString& accessKeyId, const QString& acces
     m_settings->setValue("api/accessKeyId", accessKeyId);
     m_settings->setValue("api/accessKeySecret", encryptSecret(accessKeySecret));
     m_settings->setValue("api/secretEncrypted", true);
-    return m_settings->sync();
+    m_settings->sync();
+    return true;
 }
 
 QString ConfigStorage::getAccessKeyId() const
@@ -105,7 +106,8 @@ QString ConfigStorage::getAccessKeySecret() const
 bool ConfigStorage::saveSourceLanguage(const QString& sourceLanguage)
 {
     m_settings->setValue("translation/sourceLanguage", sourceLanguage);
-    return m_settings->sync();
+    m_settings->sync();
+    return true;
 }
 
 QString ConfigStorage::getSourceLanguage() const
@@ -116,7 +118,8 @@ QString ConfigStorage::getSourceLanguage() const
 bool ConfigStorage::saveTargetLanguage(const QString& targetLanguage)
 {
     m_settings->setValue("translation/targetLanguage", targetLanguage);
-    return m_settings->sync();
+    m_settings->sync();
+    return true;
 }
 
 QString ConfigStorage::getTargetLanguage() const
@@ -127,7 +130,8 @@ QString ConfigStorage::getTargetLanguage() const
 bool ConfigStorage::saveAutoDetectLanguage(bool autoDetect)
 {
     m_settings->setValue("translation/autoDetectLanguage", autoDetect);
-    return m_settings->sync();
+    m_settings->sync();
+    return true;
 }
 
 bool ConfigStorage::getAutoDetectLanguage() const
@@ -138,7 +142,8 @@ bool ConfigStorage::getAutoDetectLanguage() const
 bool ConfigStorage::saveTimeout(int timeout)
 {
     m_settings->setValue("network/timeout", timeout);
-    return m_settings->sync();
+    m_settings->sync();
+    return true;
 }
 
 int ConfigStorage::getTimeout() const
@@ -150,7 +155,8 @@ bool ConfigStorage::resetToDefaults()
 {
     m_settings->clear();
     initializeDefaults();
-    return m_settings->sync();
+    m_settings->sync();
+    return true;
 }
 
 QString ConfigStorage::encryptSecret(const QString& secret) const
