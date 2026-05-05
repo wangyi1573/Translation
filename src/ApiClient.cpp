@@ -8,7 +8,8 @@
 ApiClient::ApiClient(const QString& accessKeyId, const QString& accessKeySecret, QObject* parent)
     : QObject(parent),
       m_timeout(10000), // 默认10秒超时
-      m_nextRequestId(1)
+      m_nextRequestId(1),
+      m_maxRetries(3) // 默认最大重试3次
 {
     m_networkManager = new QNetworkAccessManager(this);
     m_signatureGenerator = new SignatureGenerator(accessKeyId, accessKeySecret);
@@ -85,6 +86,13 @@ int ApiClient::sendRequest(const QString& method, const QString& url,
     
     // 准备请求头
     QMap<QString, QString> preparedHeaders = prepareHeaders(method, requestUrl, headers, body);
+    
+    // 保存请求信息用于重试
+    m_requestMethodMap[requestId] = method;
+    m_requestUrlMap[requestId] = url;
+    m_requestHeadersMap[requestId] = preparedHeaders;
+    m_requestBodyMap[requestId] = body;
+    m_retryCountMap[requestId] = 0;
     
     // 日志：输出请求信息
     qDebug() << "[ApiClient] Request" << requestId << ":" << method << url;
@@ -212,6 +220,35 @@ void ApiClient::onNetworkReplyFinished(QNetworkReply* reply)
         qDebug() << "[ApiClient] Request" << requestId << "failed:" << error;
     }
     
+    // 如果请求失败，检查是否需要重试
+    if (!success) {
+        int retryCount = m_retryCountMap.value(requestId, 0);
+        if (retryCount < m_maxRetries) {
+            bool shouldRetry = false;
+            QNetworkReply::NetworkError netError = reply->error();
+            
+            // 网络错误或超时
+            if (netError != QNetworkReply::NoError) {
+                shouldRetry = true;
+            } else {
+                // 检查HTTP状态码
+                int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+                if (httpStatus >= 500 || httpStatus == 429) {
+                    shouldRetry = true;
+                }
+            }
+            
+            if (shouldRetry) {
+                qDebug() << "[ApiClient] Request" << requestId << "failed, retrying (" << retryCount + 1 << "/" << m_maxRetries << ")";
+                int newRequestId = retryRequest(requestId);
+                if (newRequestId != -1) {
+                    // 重试成功发起，清理旧请求资源，不发射错误信号
+                    return;
+                }
+            }
+        }
+    }
+    
     // 清理请求
     m_requests.remove(requestId);
     reply->deleteLater();
@@ -252,4 +289,93 @@ void ApiClient::cleanupRequest(int requestId)
         timer->deleteLater();
         m_timeoutTimers.remove(requestId);
     }
+    
+    // 清理重试相关映射
+    m_retryCountMap.remove(requestId);
+    m_requestMethodMap.remove(requestId);
+    m_requestUrlMap.remove(requestId);
+    m_requestHeadersMap.remove(requestId);
+    m_requestBodyMap.remove(requestId);
+}
+
+int ApiClient::retryRequest(int oldRequestId)
+{
+    // 检查是否有旧的请求信息
+    if (!m_requestMethodMap.contains(oldRequestId) || 
+        !m_requestUrlMap.contains(oldRequestId) ||
+        !m_requestHeadersMap.contains(oldRequestId)) {
+        return -1;
+    }
+    
+    // 获取旧的请求信息
+    QString method = m_requestMethodMap[oldRequestId];
+    QString url = m_requestUrlMap[oldRequestId];
+    QMap<QString, QString> headers = m_requestHeadersMap[oldRequestId];
+    QByteArray body = m_requestBodyMap[oldRequestId];
+    int retryCount = m_retryCountMap.value(oldRequestId, 0) + 1;
+    
+    // 清理旧的请求资源（不包括映射，因为要复用）
+    if (m_requests.contains(oldRequestId)) {
+        QNetworkReply* oldReply = m_requests[oldRequestId];
+        oldReply->abort();
+        oldReply->deleteLater();
+        m_requests.remove(oldRequestId);
+    }
+    if (m_timeoutTimers.contains(oldRequestId)) {
+        QTimer* oldTimer = m_timeoutTimers[oldRequestId];
+        oldTimer->stop();
+        oldTimer->deleteLater();
+        m_timeoutTimers.remove(oldRequestId);
+    }
+    
+    // 创建新的请求ID
+    int newRequestId = m_nextRequestId++;
+    
+    // 创建新的网络请求
+    QUrl requestUrl(url);
+    QNetworkRequest request;
+    request.setUrl(requestUrl);
+    
+    // 设置请求头
+    foreach (const QString& headerName, headers.keys()) {
+        request.setRawHeader(headerName.toUtf8(), headers[headerName].toUtf8());
+    }
+    
+    // 发送请求
+    QNetworkReply* reply = nullptr;
+    if (method.toUpper() == "POST") {
+        reply = m_networkManager->post(request, body);
+    } else {
+        reply = m_networkManager->get(request);
+    }
+    
+    // 更新映射
+    m_requests[newRequestId] = reply;
+    m_requestMethodMap[newRequestId] = method;
+    m_requestUrlMap[newRequestId] = url;
+    m_requestHeadersMap[newRequestId] = headers;
+    m_requestBodyMap[newRequestId] = body;
+    m_retryCountMap[newRequestId] = retryCount;
+    
+    // 设置新的超时定时器
+    QTimer* timer = new QTimer(this);
+    timer->setSingleShot(true);
+    timer->setInterval(m_timeout);
+    connect(timer, &QTimer::timeout, [this, newRequestId]() {
+        onRequestTimeout(newRequestId);
+    });
+    timer->start();
+    m_timeoutTimers[newRequestId] = timer;
+    
+    // 清理旧的映射（已经转移到新的）
+    m_retryCountMap.remove(oldRequestId);
+    m_requestMethodMap.remove(oldRequestId);
+    m_requestUrlMap.remove(oldRequestId);
+    m_requestHeadersMap.remove(oldRequestId);
+    m_requestBodyMap.remove(oldRequestId);
+    
+    qDebug() << "[ApiClient] Retrying request" << oldRequestId << "as" << newRequestId 
+             << "(attempt" << retryCount << "of" << m_maxRetries << ")";
+    
+    return newRequestId;
 }

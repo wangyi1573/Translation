@@ -96,8 +96,14 @@ private:
     SignatureGenerator* m_signatureGenerator; // 签名生成器
     int m_timeout;                           // 请求超时时间（毫秒）
     int m_nextRequestId;                     // 下一个请求ID
+    int m_maxRetries;                        // 最大重试次数（0=不重试）
     QMap<int, QNetworkReply*> m_requests;    // 请求ID到网络回复的映射
     QMap<int, QTimer*> m_timeoutTimers;      // 请求ID到超时定时器的映射
+    QMap<int, int> m_retryCountMap;         // 请求ID到当前重试次数的映射
+    QMap<int, QString> m_requestMethodMap;  // 请求ID到请求方法的映射
+    QMap<int, QString> m_requestUrlMap;     // 请求ID到请求URL的映射
+    QMap<int, QMap<QString, QString>> m_requestHeadersMap; // 请求ID到请求头的映射
+    QMap<int, QByteArray> m_requestBodyMap; // 请求ID到请求体的映射
     
     /**
      * @brief 发送请求
@@ -127,6 +133,13 @@ private:
      * @param requestId 请求ID
      */
     void cleanupRequest(int requestId);
+    
+    /**
+     * @brief 重试请求
+     * @param requestId 原请求ID
+     * @return 新请求ID，-1表示失败
+     */
+    int retryRequest(int requestId);
 };
 
 #endif // APICLIENT_H
