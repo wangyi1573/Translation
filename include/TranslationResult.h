@@ -32,12 +32,12 @@ struct TranslationResult {
                      const QString& targetLanguage = "",
                      int errorCode = 0,
                      const QString& errorMessage = "")
-        : success(success),
-          translatedText(translatedText),
+        : translatedText(translatedText),
           sourceLanguage(sourceLanguage),
           targetLanguage(targetLanguage),
           errorCode(errorCode),
           errorMessage(errorMessage),
+          success(success),
           timestamp(0)
     {}
 };

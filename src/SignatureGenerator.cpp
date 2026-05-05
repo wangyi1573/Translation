@@ -1,6 +1,7 @@
 #include "SignatureGenerator.h"
 #include <QCryptographicHash>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QStringList>
 #include <QDebug>
 
@@ -183,7 +184,25 @@ QByteArray SignatureGenerator::deriveSigningKey(const QString& date)
 
 QByteArray SignatureGenerator::hmacSha256(const QByteArray& key, const QString& data)
 {
-    return QCryptographicHash::hash(data.toUtf8(), QCryptographicHash::Sha256);
+    // HMAC-SHA256 implementation
+    QByteArray k_ipad(64, 0);
+    QByteArray k_opad(64, 0);
+    
+    QByteArray keyData = key;
+    if (keyData.length() > 64) {
+        keyData = QCryptographicHash::hash(keyData, QCryptographicHash::Sha256);
+    }
+    
+    for (int i = 0; i < 64; ++i) {
+        k_ipad[i] = (i < keyData.length() ? keyData[i] : 0) ^ 0x36;
+        k_opad[i] = (i < keyData.length() ? keyData[i] : 0) ^ 0x5c;
+    }
+    
+    QByteArray innerData = k_ipad + data.toUtf8();
+    QByteArray innerHash = QCryptographicHash::hash(innerData, QCryptographicHash::Sha256);
+    
+    QByteArray outerData = k_opad + innerHash;
+    return QCryptographicHash::hash(outerData, QCryptographicHash::Sha256);
 }
 
 QString SignatureGenerator::sha256(const QByteArray& data)
@@ -193,14 +212,10 @@ QString SignatureGenerator::sha256(const QByteArray& data)
 
 QString SignatureGenerator::urlEncode(const QString& value)
 {
-    QUrl url;
-    url.setQueryItem("param", value);
-    QString encoded = url.query().mid(6); // 移除"param="前缀
-    
-    // 替换不符合规范的字符
-    encoded.replace("+", "%20");
-    encoded.replace("*", "%2A");
-    encoded.replace("%7E", "~");
-    
-    return encoded;
+    // Use QUrlQuery to properly encode
+    QUrlQuery query;
+    query.addQueryItem("dummy", value);
+    QString encoded = query.toString(QUrl::FullyEncoded);
+    // Remove "dummy=" prefix (7 characters)
+    return encoded.mid(7);
 }

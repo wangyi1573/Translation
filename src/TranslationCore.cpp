@@ -1,4 +1,5 @@
 #include "TranslationCore.h"
+#include <QUrlQuery>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>

@@ -1,5 +1,6 @@
 #include "ApiClient.h"
 #include <QUrl>
+#include <QUrlQuery>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QTimer>
