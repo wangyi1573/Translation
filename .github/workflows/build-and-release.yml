@@ -30,7 +30,7 @@ jobs:
         shell: powershell
 
       - name: Run qmake
-        run: qmake Translation.pro
+        run: qmake VolcengineTranslation.pro
         working-directory: ${{ github.workspace }}
 
       - name: Build project
