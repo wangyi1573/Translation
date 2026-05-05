@@ -81,8 +81,8 @@ int ApiClient::sendRequest(const QString& method, const QString& url,
     // 提取查询参数
     QMap<QString, QString> queryParams;
     QUrlQuery query(requestUrl);
-    foreach (const QString& key, query.keys()) {
-        queryParams[key] = query.queryItemValue(key);
+    foreach (const auto& item, query.queryItems()) {
+        queryParams[item.first] = item.second;
     }
     
     // 准备请求头
@@ -169,8 +169,8 @@ QMap<QString, QString> ApiClient::prepareHeaders(const QString& method, const QU
         
         QMap<QString, QString> queryParams;
         QUrlQuery query(url);
-        foreach (const QString& key, query.keys()) {
-            queryParams[key] = query.queryItemValue(key);
+        foreach (const auto& item, query.queryItems()) {
+            queryParams[item.first] = item.second;
         }
         
         QString authorization = m_signatureGenerator->generateAuthorizationHeader(
