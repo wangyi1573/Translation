@@ -1,0 +1,14 @@
+{
+  "api": {
+    "accessKeyId": "",
+    "accessKeySecret": ""
+  },
+  "translation": {
+    "sourceLanguage": "auto",
+    "targetLanguage": "zh",
+    "autoDetectLanguage": true
+  },
+  "network": {
+    "timeout": 10000
+  }
+}
