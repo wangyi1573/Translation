@@ -120,6 +120,20 @@ private:
      * @brief 初始化默认配置
      */
     void initializeDefaults();
+    
+    /**
+     * @brief 加密密钥字符串
+     * @param secret 明文密钥
+     * @return 加密后的Base64字符串
+     */
+    QString encryptSecret(const QString& secret) const;
+    
+    /**
+     * @brief 解密密钥字符串
+     * @param encryptedSecret 加密后的Base64字符串
+     * @return 明文密钥
+     */
+    QString decryptSecret(const QString& encryptedSecret) const;
 };
 
 #endif // CONFIGSTORAGE_H

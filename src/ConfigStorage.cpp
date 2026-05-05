@@ -56,6 +56,10 @@ void ConfigStorage::initializeDefaults()
         m_settings->setValue("api/accessKeySecret", "");
     }
     
+    if (!m_settings->contains("api/secretEncrypted")) {
+        m_settings->setValue("api/secretEncrypted", true);
+    }
+    
     if (!m_settings->contains("translation/sourceLanguage")) {
         m_settings->setValue("translation/sourceLanguage", "auto");
     }
@@ -78,7 +82,8 @@ void ConfigStorage::initializeDefaults()
 bool ConfigStorage::saveApiKeys(const QString& accessKeyId, const QString& accessKeySecret)
 {
     m_settings->setValue("api/accessKeyId", accessKeyId);
-    m_settings->setValue("api/accessKeySecret", accessKeySecret);
+    m_settings->setValue("api/accessKeySecret", encryptSecret(accessKeySecret));
+    m_settings->setValue("api/secretEncrypted", true);
     return m_settings->sync();
 }
 
@@ -89,7 +94,12 @@ QString ConfigStorage::getAccessKeyId() const
 
 QString ConfigStorage::getAccessKeySecret() const
 {
-    return m_settings->value("api/accessKeySecret").toString();
+    bool encrypted = m_settings->value("api/secretEncrypted", false).toBool();
+    QString stored = m_settings->value("api/accessKeySecret").toString();
+    if (encrypted && !stored.isEmpty()) {
+        return decryptSecret(stored);
+    }
+    return stored;
 }
 
 bool ConfigStorage::saveSourceLanguage(const QString& sourceLanguage)
@@ -141,6 +151,33 @@ bool ConfigStorage::resetToDefaults()
     m_settings->clear();
     initializeDefaults();
     return m_settings->sync();
+}
+
+QString ConfigStorage::encryptSecret(const QString& secret) const
+{
+    if (secret.isEmpty()) return QString();
+    // 加密密钥，可自定义修改
+    QString key = "V@lc3ng1ne_Tr4nsl4t10n_2026";
+    QByteArray secretBytes = secret.toUtf8();
+    QByteArray keyBytes = key.toUtf8();
+    QByteArray encrypted;
+    for (int i = 0; i < secretBytes.size(); ++i) {
+        encrypted.append(secretBytes[i] ^ keyBytes[i % keyBytes.size()]);
+    }
+    return QString::fromUtf8(encrypted.toBase64());
+}
+
+QString ConfigStorage::decryptSecret(const QString& encryptedSecret) const
+{
+    if (encryptedSecret.isEmpty()) return QString();
+    QString key = "V@lc3ng1ne_Tr4nsl4t10n_2026";
+    QByteArray encryptedBytes = QByteArray::fromBase64(encryptedSecret.toUtf8());
+    QByteArray keyBytes = key.toUtf8();
+    QByteArray decrypted;
+    for (int i = 0; i < encryptedBytes.size(); ++i) {
+        decrypted.append(encryptedBytes[i] ^ keyBytes[i % keyBytes.size()]);
+    }
+    return QString::fromUtf8(decrypted);
 }
 
 bool ConfigStorage::isConfigValid() const
