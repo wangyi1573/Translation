@@ -86,6 +86,13 @@ int ApiClient::sendRequest(const QString& method, const QString& url,
     // 准备请求头
     QMap<QString, QString> preparedHeaders = prepareHeaders(method, requestUrl, headers, body);
     
+    // 日志：输出请求信息
+    qDebug() << "[ApiClient] Request" << requestId << ":" << method << url;
+    qDebug() << "[ApiClient] Headers:" << preparedHeaders;
+    if (!body.isEmpty()) {
+        qDebug() << "[ApiClient] Body:" << QString::fromUtf8(body);
+    }
+    
     // 创建网络请求
     QNetworkRequest request;
     request.setUrl(requestUrl);
@@ -198,9 +205,11 @@ void ApiClient::onNetworkReplyFinished(QNetworkReply* reply)
     if (reply->error() == QNetworkReply::NoError) {
         response = reply->readAll();
         success = true;
+        qDebug() << "[ApiClient] Request" << requestId << "finished successfully, response:" << QString::fromUtf8(response);
     } else {
         error = reply->errorString();
         success = false;
+        qDebug() << "[ApiClient] Request" << requestId << "failed:" << error;
     }
     
     // 清理请求
@@ -225,6 +234,7 @@ void ApiClient::onRequestTimeout(int requestId)
             m_timeoutTimers.remove(requestId);
         }
         
+        qDebug() << "[ApiClient] Request" << requestId << "timeout after" << m_timeout << "ms";
         emit requestFinished(requestId, false, QByteArray(), "Request timeout");
     }
 }
