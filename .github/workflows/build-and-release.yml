@@ -42,8 +42,8 @@ jobs:
         with:
           name: translation-build
           path: |
-            release/*.exe
-            release/*.dll
+            bin/win32/*.dll
+            bin/win32/*.exe
 
   release:
     needs: build
@@ -73,6 +73,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifacts/Translation.exe
-          asset_name: Translation.exe
-          asset_content_type: application/octet-stream
+          asset_path: artifacts/
+          asset_name: VolcengineTranslation.zip
+          asset_content_type: application/zip
