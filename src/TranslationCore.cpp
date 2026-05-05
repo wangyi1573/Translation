@@ -7,7 +7,8 @@
 TranslationCore::TranslationCore(const QString& accessKeyId, const QString& accessKeySecret, QObject* parent)
     : QObject(parent),
       m_accessKeyId(accessKeyId),
-      m_accessKeySecret(accessKeySecret)
+      m_accessKeySecret(accessKeySecret),
+      m_languagesFetched(false)
 {
     m_apiClient = new ApiClient(accessKeyId, accessKeySecret, this);
     connect(m_apiClient, &ApiClient::requestFinished, this, &TranslationCore::onApiRequestFinished);
@@ -124,33 +125,56 @@ int TranslationCore::testConnection()
     return translateText("Hello", "", "zh");
 }
 
+void TranslationCore::fetchSupportedLanguages()
+{
+    qDebug() << "[TranslationCore] Fetching supported languages from API...";
+    QUrl url("https://translate.volcengineapi.com");
+    QUrlQuery query;
+    query.addQueryItem("Action", "ListSupportedLanguages");
+    query.addQueryItem("Version", "2020-06-01");
+    url.setQuery(query);
+    
+    QMap<QString, QString> headers;
+    headers["Content-Type"] = "application/json";
+    QByteArray requestBody; // 该接口可能不需要请求体
+    
+    int requestId = m_apiClient->post(url.toString(), headers, requestBody);
+    m_requestTypeMap[requestId] = "fetchLanguages";
+}
+
 QMap<QString, QString> TranslationCore::getSupportedLanguages()
 {
-    QMap<QString, QString> languages;
-    
-    // 常用语言列表
-    languages["auto"] = "自动检测";
-    languages["zh"] = "中文";
-    languages["en"] = "英文";
-    languages["ja"] = "日语";
-    languages["ko"] = "韩语";
-    languages["fr"] = "法语";
-    languages["de"] = "德语";
-    languages["es"] = "西班牙语";
-    languages["ru"] = "俄语";
-    languages["pt"] = "葡萄牙语";
-    languages["it"] = "意大利语";
-    languages["nl"] = "荷兰语";
-    languages["pl"] = "波兰语";
-    languages["ar"] = "阿拉伯语";
-    languages["tr"] = "土耳其语";
-    languages["th"] = "泰语";
-    languages["vi"] = "越南语";
-    languages["id"] = "印尼语";
-    languages["ms"] = "马来语";
-    languages["hi"] = "印地语";
-    
-    return languages;
+    if (m_supportedLanguages.isEmpty()) {
+        // 若动态列表为空，返回硬编码列表并触发获取
+        if (!m_languagesFetched) {
+            fetchSupportedLanguages();
+            m_languagesFetched = true;
+        }
+        // 硬编码后备列表
+        QMap<QString, QString> defaultLangs;
+        defaultLangs["auto"] = "自动检测";
+        defaultLangs["zh"] = "中文";
+        defaultLangs["en"] = "英文";
+        defaultLangs["ja"] = "日语";
+        defaultLangs["ko"] = "韩语";
+        defaultLangs["fr"] = "法语";
+        defaultLangs["de"] = "德语";
+        defaultLangs["es"] = "西班牙语";
+        defaultLangs["ru"] = "俄语";
+        defaultLangs["pt"] = "葡萄牙语";
+        defaultLangs["it"] = "意大利语";
+        defaultLangs["nl"] = "荷兰语";
+        defaultLangs["pl"] = "波兰语";
+        defaultLangs["ar"] = "阿拉伯语";
+        defaultLangs["tr"] = "土耳其语";
+        defaultLangs["th"] = "泰语";
+        defaultLangs["vi"] = "越南语";
+        defaultLangs["id"] = "印尼语";
+        defaultLangs["ms"] = "马来语";
+        defaultLangs["hi"] = "印地语";
+        return defaultLangs;
+    }
+    return m_supportedLanguages;
 }
 
 void TranslationCore::onApiRequestFinished(int requestId, bool success, const QByteArray& response, const QString& error)
@@ -218,6 +242,32 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
         } else {
             qDebug() << "[TranslationCore] Language detection failed:" << errorMessage;
             emit languageDetectionFinished(requestId, "", 0.0f, errorMessage);
+        }
+    } else if (requestType == "fetchLanguages") {
+        // 处理语言列表响应
+        qDebug() << "[TranslationCore] Processing supported languages response...";
+        QJsonDocument doc = QJsonDocument::fromJson(response);
+        if (doc.isNull() || !doc.isObject()) {
+            qDebug() << "[TranslationCore] Failed to parse languages JSON";
+            return;
+        }
+        QJsonObject root = doc.object();
+        if (root.contains("Languages") && root["Languages"].isArray()) {
+            QJsonArray langsArray = root["Languages"].toArray();
+            m_supportedLanguages.clear();
+            foreach (const QJsonValue& val, langsArray) {
+                QJsonObject langObj = val.toObject();
+                QString code = langObj["Code"].toString();
+                QString name = langObj["Name"].toString();
+                if (!code.isEmpty()) {
+                    m_supportedLanguages[code] = name;
+                }
+            }
+            m_languagesFetched = true;
+            qDebug() << "[TranslationCore] Fetched" << m_supportedLanguages.size() << "languages from API";
+            emit supportedLanguagesFetched(m_supportedLanguages);
+        } else {
+            qDebug() << "[TranslationCore] Invalid languages response format";
         }
     }
     

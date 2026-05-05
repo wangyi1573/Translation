@@ -79,7 +79,12 @@ public:
      * @brief 获取支持的语言列表
      * @return 语言代码到语言名称的映射
      */
-    static QMap<QString, QString> getSupportedLanguages();
+    QMap<QString, QString> getSupportedLanguages();
+    
+    /**
+     * @brief 动态获取支持的语言列表（从API）
+     */
+    void fetchSupportedLanguages();
 
 signals:
     /**
@@ -104,6 +109,12 @@ signals:
      * @param message 测试结果消息
      */
     void connectionTestFinished(bool success, const QString& message);
+    
+    /**
+     * @brief 支持的语言列表已获取信号
+     * @param languages 语言代码到名称的映射
+     */
+    void supportedLanguagesFetched(const QMap<QString, QString>& languages);
 
 private slots:
     /**
@@ -124,6 +135,8 @@ private:
     QMap<int, QString> m_requestSourceLang; // 请求ID到源语言的映射
     QMap<int, QString> m_requestTargetLang; // 请求ID到目标语言的映射
     QMap<QString, TranslationResult> m_translationCache; // 翻译结果缓存
+    QMap<QString, QString> m_supportedLanguages; // 动态获取的支持语言列表
+    bool m_languagesFetched;                // 是否已获取过语言列表
     
     /**
      * @brief 生成缓存键
