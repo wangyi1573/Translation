@@ -121,6 +121,20 @@ private:
     QString m_accessKeySecret;              // Access Key Secret
     QMap<int, QString> m_requestTypeMap;    // 请求ID到请求类型的映射
     QMap<int, QStringList> m_requestTexts;  // 请求ID到请求文本列表的映射
+    QMap<int, QString> m_requestSourceLang; // 请求ID到源语言的映射
+    QMap<int, QString> m_requestTargetLang; // 请求ID到目标语言的映射
+    QMap<QString, TranslationResult> m_translationCache; // 翻译结果缓存
+    
+    /**
+     * @brief 生成缓存键
+     * @param text 待翻译文本
+     * @param sourceLanguage 源语言
+     * @param targetLanguage 目标语言
+     * @return 缓存键
+     */
+    QString generateCacheKey(const QString& text, const QString& sourceLanguage, const QString& targetLanguage) {
+        return QString("%1|%2|%3").arg(sourceLanguage, targetLanguage, text);
+    }
     
     /**
      * @brief 构建翻译请求体

@@ -36,6 +36,15 @@ void TranslationCore::setTimeout(int timeout)
 
 int TranslationCore::translateText(const QString& text, const QString& sourceLanguage, const QString& targetLanguage)
 {
+    // 检查缓存
+    QString cacheKey = generateCacheKey(text, sourceLanguage, targetLanguage);
+    if (m_translationCache.contains(cacheKey)) {
+        TranslationResult cachedResult = m_translationCache[cacheKey];
+        // 直接发射信号，请求ID用-1表示缓存命中
+        emit translationFinished(-1, cachedResult);
+        return -1; // 缓存命中，无实际请求ID
+    }
+    
     QStringList texts;
     texts << text;
     return translateTexts(texts, sourceLanguage, targetLanguage);
@@ -43,6 +52,13 @@ int TranslationCore::translateText(const QString& text, const QString& sourceLan
 
 int TranslationCore::translateTexts(const QStringList& texts, const QString& sourceLanguage, const QString& targetLanguage)
 {
+    // 构建请求URL（带查询参数）
+    QUrl url("https://translate.volcengineapi.com");
+    QUrlQuery query;
+    query.addQueryItem("Action", "TranslateText");
+    query.addQueryItem("Version", "2020-06-01");
+    url.setQuery(query);
+    
     // 构建请求体
     QByteArray requestBody = buildTranslateRequestBody(texts, sourceLanguage, targetLanguage);
     
@@ -50,23 +66,27 @@ int TranslationCore::translateTexts(const QStringList& texts, const QString& sou
     QMap<QString, QString> headers;
     headers["Content-Type"] = "application/json";
     
-    // 设置查询参数
-    QMap<QString, QString> queryParams;
-    queryParams["Action"] = "TranslateText";
-    queryParams["Version"] = "2020-06-01";
-    
     // 发送请求
-    int requestId = m_apiClient->post("https://translate.volcengineapi.com", headers, requestBody);
+    int requestId = m_apiClient->post(url.toString(), headers, requestBody);
     
     // 保存请求信息
     m_requestTypeMap[requestId] = "translate";
     m_requestTexts[requestId] = texts;
+    m_requestSourceLang[requestId] = sourceLanguage;
+    m_requestTargetLang[requestId] = targetLanguage;
     
     return requestId;
 }
 
 int TranslationCore::detectLanguage(const QString& text)
 {
+    // 构建请求URL（带查询参数）
+    QUrl url("https://translate.volcengineapi.com");
+    QUrlQuery query;
+    query.addQueryItem("Action", "LangDetect");
+    query.addQueryItem("Version", "2020-06-01");
+    url.setQuery(query);
+    
     // 构建请求体
     QByteArray requestBody = buildLanguageDetectionRequestBody(text);
     
@@ -74,13 +94,8 @@ int TranslationCore::detectLanguage(const QString& text)
     QMap<QString, QString> headers;
     headers["Content-Type"] = "application/json";
     
-    // 设置查询参数
-    QMap<QString, QString> queryParams;
-    queryParams["Action"] = "LangDetect";
-    queryParams["Version"] = "2020-06-01";
-    
     // 发送请求
-    int requestId = m_apiClient->post("https://translate.volcengineapi.com", headers, requestBody);
+    int requestId = m_apiClient->post(url.toString(), headers, requestBody);
     
     // 保存请求信息
     m_requestTypeMap[requestId] = "detect";
@@ -135,8 +150,26 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
         // 处理翻译响应
         TranslationResult result = parseTranslateResponse(response, requestId);
         
+        // 如果翻译成功，存入缓存
+        if (result.success && m_requestTexts.contains(requestId)) {
+            QStringList texts = m_requestTexts[requestId];
+            QString sourceLang = m_requestSourceLang.value(requestId, "");
+            QString targetLang = m_requestTargetLang.value(requestId, "");
+            
+            // 逐个缓存翻译结果
+            for (int i = 0; i < texts.size() && i < result.translatedTexts.size(); ++i) {
+                QString cacheKey = generateCacheKey(texts[i], sourceLang, targetLang);
+                TranslationResult cachedResult = result;
+                cachedResult.translatedText = result.translatedTexts[i];
+                cachedResult.translatedTexts = QStringList() << result.translatedTexts[i];
+                m_translationCache[cacheKey] = cachedResult;
+            }
+        }
+        
         // 如果是测试连接请求，发送连接测试完成信号
-        if (m_requestTexts[requestId].size() == 1 && m_requestTexts[requestId].first() == "Hello") {
+        if (m_requestTexts.contains(requestId) && 
+            m_requestTexts[requestId].size() == 1 && 
+            m_requestTexts[requestId].first() == "Hello") {
             bool testSuccess = result.success;
             QString message = testSuccess ? "连接成功" : result.errorMessage;
             emit connectionTestFinished(testSuccess, message);
@@ -162,6 +195,8 @@ void TranslationCore::onApiRequestFinished(int requestId, bool success, const QB
     // 清理请求信息
     m_requestTypeMap.remove(requestId);
     m_requestTexts.remove(requestId);
+    m_requestSourceLang.remove(requestId);
+    m_requestTargetLang.remove(requestId);
 }
 
 QByteArray TranslationCore::buildTranslateRequestBody(const QStringList& texts, const QString& sourceLanguage, const QString& targetLanguage)
@@ -219,7 +254,11 @@ TranslationResult TranslationCore::parseTranslateResponse(const QByteArray& resp
         if (responseMetadata.contains("Error")) {
             QJsonObject error = responseMetadata["Error"].toObject();
             result.success = false;
-            result.errorCode = error["Code"].toString().toInt();
+            // 火山引擎错误码可能是字符串，优先用字符串存储，转int失败则用-1
+            QString errorCodeStr = error["Code"].toString();
+            bool ok;
+            int errorCode = errorCodeStr.toInt(&ok);
+            result.errorCode = ok ? errorCode : -1;
             result.errorMessage = error["Message"].toString();
             return result;
         }
@@ -230,16 +269,24 @@ TranslationResult TranslationCore::parseTranslateResponse(const QByteArray& resp
         QJsonArray translationList = rootObject["TranslationList"].toArray();
         
         if (translationList.size() > 0) {
-            QJsonObject translationObj = translationList[0].toObject();
-            
-            // 获取翻译文本
-            if (translationObj.contains("Translation")) {
-                result.translatedText = translationObj["Translation"].toString();
+            // 处理所有翻译结果
+            for (const QJsonValue& val : translationList) {
+                QJsonObject translationObj = val.toObject();
+                if (translationObj.contains("Translation")) {
+                    result.translatedTexts.append(translationObj["Translation"].toString());
+                } else {
+                    result.translatedTexts.append(QString());
+                }
+                
+                // 取第一个结果的源语言作为整体源语言
+                if (result.sourceLanguage.isEmpty() && translationObj.contains("DetectedSourceLanguage")) {
+                    result.sourceLanguage = translationObj["DetectedSourceLanguage"].toString();
+                }
             }
             
-            // 获取检测到的源语言（如果有）
-            if (translationObj.contains("DetectedSourceLanguage")) {
-                result.sourceLanguage = translationObj["DetectedSourceLanguage"].toString();
+            // 兼容单文本场景：将第一个结果赋值给translatedText
+            if (!result.translatedTexts.isEmpty()) {
+                result.translatedText = result.translatedTexts.first();
             }
             
             // 获取请求的目标语言

@@ -19,8 +19,7 @@ ApiClient::ApiClient(const QString& accessKeyId, const QString& accessKeySecret,
 ApiClient::~ApiClient()
 {
     cancelAllRequests();
-    delete m_networkManager;
-    delete m_signatureGenerator;
+    // m_networkManager和m_signatureGenerator设置了parent为this，由Qt对象树自动管理，无需手动删除
 }
 
 void ApiClient::setTimeout(int timeout)
