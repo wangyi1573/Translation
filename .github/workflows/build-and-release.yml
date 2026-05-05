@@ -1,0 +1,78 @@
+name: Build and Release Qt Translation Plugin
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_mingw81'
+          install-deps: true
+
+      - name: Setup MinGW path
+        run: |
+          $qtPath = "$env:Qt5_DIR\..\..\Tools\mingw810_64\bin"
+          echo $qtPath >> $env:GITHUB_PATH
+        shell: powershell
+
+      - name: Run qmake
+        run: qmake Translation.pro
+        working-directory: ${{ github.workspace }}
+
+      - name: Build project
+        run: mingw32-make.exe -j4
+        working-directory: ${{ github.workspace }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: translation-build
+          path: |
+            release/*.exe
+            release/*.dll
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: translation-build
+          path: artifacts
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifacts/Translation.exe
+          asset_name: Translation.exe
+          asset_content_type: application/octet-stream
