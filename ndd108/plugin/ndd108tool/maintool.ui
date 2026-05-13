@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainToolClass</class>
+ <widget class="QMainWindow" name="MainToolClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1029</width>
+    <height>660</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainTool</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../RealCompare.qrc">
+    <normaloff>:/Resources/edit/global/ndd.ico</normaloff>:/Resources/edit/global/ndd.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+    <property name="leftMargin">
+     <number>3</number>
+    </property>
+    <property name="rightMargin">
+     <number>3</number>
+    </property>
+    <property name="bottomMargin">
+     <number>3</number>
+    </property>
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Functions</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="leftMargin">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>1</number>
+       </property>
+       <property name="bottomMargin">
+        <number>1</number>
+       </property>
+       <item>
+        <widget class="QListWidget" name="listWidget">
+         <item>
+          <property name="text">
+           <string>Encode Transcoding</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Volcengine Translate</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Trad Simplified Trans</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Full Half Angle</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Timestamp Trans</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>File Cut Merge</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Batch Rename File</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="../../RealCompare.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>slot_saveClick()</slot>
+  <slot>slot_changeFgColor()</slot>
+  <slot>slot_changeBkColor()</slot>
+  <slot>slot_reset()</slot>
+  <slot>slot_useAlobalFgColor(bool)</slot>
+  <slot>slot_useAlobalFont(bool)</slot>
+  <slot>slot_useAlobalFontSize(bool)</slot>
+  <slot>slot_useAlobalFontBold(bool)</slot>
+  <slot>slot_useAlobalFontUnderline(bool)</slot>
+  <slot>slot_useAlobalFontItalic(bool)</slot>
+  <slot>slot_useAlobalBkColor(bool)</slot>
+  <slot>on_themesChange(int)</slot>
+  <slot>on_showGlobalItem()</slot>
+ </slots>
+</ui>
