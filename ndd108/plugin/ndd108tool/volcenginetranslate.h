@@ -27,7 +27,7 @@ private:
     void loadConfig();
     QString getSelectedText();
 
-    Ui_VolcengineTranslate ui;
+    Ui_VolcengineTranslateClass ui;
     QPointer<VolcengineApi> m_api;
     QPointer<VolcengineTransConfig> m_configDialog;
     QWidget* m_pNotepad;

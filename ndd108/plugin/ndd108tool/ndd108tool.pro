@@ -2,7 +2,7 @@ TEMPLATE = lib
 LANGUAGE = C++
 
 CONFIG += qt warn_on Debug
-QT += core gui widgets
+QT += core gui widgets network
 
 HEADERS +=  *.h \
     opencc/Export.hpp \

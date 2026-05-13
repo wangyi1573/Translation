@@ -6,6 +6,7 @@
 #include "ui_tradsimptrans.h"
 #include "opencc/opencc.h"
 #include "../rcglobal.h"
+#include <Qsci/qsciscintilla.h>
 
 class TradSimpTrans : public QWidget
 {
