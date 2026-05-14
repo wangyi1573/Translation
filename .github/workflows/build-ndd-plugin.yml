@@ -33,13 +33,14 @@ jobs:
       - name: Install OpenCC via vcpkg
         run: |
           vcpkg install opencc:x64-windows
-          vcpkg integrate install
+          if not exist "ndd108\plugin\ndd108tool\lib" mkdir "ndd108\plugin\ndd108tool\lib"
+          copy "C:\vcpkg\installed\x64-windows\lib\opencc.lib" "ndd108\plugin\ndd108tool\lib\opencc.lib"
         shell: cmd
 
       - name: Run qmake for ndd108tool
         run: |
           cd ndd108\plugin\ndd108tool
-          qmake ndd108tool.pro CONFIG+=release "INCLUDEPATH += C:/vcpkg/installed/x64-windows/include" "LIBS += -LC:/vcpkg/installed/x64-windows/lib"
+          qmake ndd108tool.pro CONFIG+=release
         shell: cmd
 
       - name: Build ndd108tool plugin
