@@ -27,3 +27,5 @@ ipch/
 
 # NDD plugin build
 ndd108/x64/
+!ndd108/x64/Release/
+!ndd108/x64/Release/qmyedit_qt5.lib

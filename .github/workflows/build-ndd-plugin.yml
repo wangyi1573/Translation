@@ -36,13 +36,6 @@ jobs:
           vcpkg integrate install
         shell: cmd
 
-      - name: Build qscintilla (qmyedit_qt5 library)
-        run: |
-          cd ndd108\qscint\src
-          qmake qscintilla.pro CONFIG+=release
-          nmake /F Makefile.Release
-        shell: cmd
-
       - name: Run qmake for ndd108tool
         run: |
           cd ndd108\plugin\ndd108tool
@@ -60,5 +53,7 @@ jobs:
         if: always()
         with:
           name: ndd108tool-build
-          path: ndd108/x64/Release/plugin/ndd108tool.dll
+          path: |
+            ndd108/x64/Release/plugin/ndd108tool.dll
+            C:/vcpkg/installed/x64-windows/bin/opencc.dll
           if-no-files-found: ignore
