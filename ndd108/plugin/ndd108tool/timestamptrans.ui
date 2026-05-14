@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TimeStampTrans</class>
+ <widget class="QWidget" name="TimeStampTrans">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>788</width>
+    <height>603</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TimeStampTrans</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_6">
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Single Convert</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>TimeStamp:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="timestampLe"/>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxTimeStamp">
+          <item>
+           <property name="text">
+            <string>msec</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>sec</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="text">
+           <string>Convert</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="timeLe"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Time:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="srcTimeLe">
+          <property name="placeholderText">
+           <string>yyyy-MM-dd hh:mm:ss</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_2">
+          <property name="text">
+           <string>Convert</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="dstTimestampLe"/>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxTime">
+          <item>
+           <property name="text">
+            <string>msec</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>sec</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Batch Convert</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>TimeStamp</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="timeStampTextEdit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toTimeBt">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="toTimeStampBt">
+            <property name="text">
+             <string>...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Time</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPlainTextEdit" name="timeTextEdit"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Convert Current Edit</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Highlight TimeStamp</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="timeFormat">
+        <item>
+         <property name="text">
+          <string>msec</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>sec</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Trans All TimeStamp To Time</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>Trans Select TimeStamp to Time</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_singleToTime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>468</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>442</x>
+     <y>606</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_singleToTimeStamp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>386</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>606</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toTimeBt</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_batchToTime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>310</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>712</x>
+     <y>606</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toTimeStampBt</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_batchToTimeStamp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>403</x>
+     <y>334</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>492</x>
+     <y>602</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_highTimeStamp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>589</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>123</x>
+     <y>605</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_replaceTimeStampToTime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>589</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>679</x>
+     <y>602</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>TimeStampTrans</receiver>
+   <slot>on_dealSelectTextToTime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>667</x>
+     <y>576</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>791</x>
+     <y>555</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_singleToTime()</slot>
+  <slot>on_singleToTimeStamp()</slot>
+  <slot>on_batchToTime()</slot>
+  <slot>on_batchToTimeStamp()</slot>
+  <slot>on_highTimeStamp()</slot>
+  <slot>on_replaceTimeStampToTime()</slot>
+  <slot>on_dealSelectTextToTime()</slot>
+ </slots>
+</ui>

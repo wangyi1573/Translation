@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FullHalfAngleClass</class>
+ <widget class="QWidget" name="FullHalfAngleClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>773</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FullHalfAngle</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>function</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Highlight all full width characters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_5">
+        <property name="text">
+         <string>Highlight all half width characters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="text">
+         <string>Delete all full width characters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="text">
+         <string>Delete all half width characters</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Convert full width characters to half </string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="text">
+         <string>Convert half width characters to full </string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="plainTextEdit">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="plainText">
+      <string>ASCII  全角字符  Unicode   半角字符  Unicode
+0x20    &quot;　&quot;    \x{3000}    &quot; &quot;      \x{0020}
+0x21    ！      \x{ff01}    !        \x{0024}
+0x25    ％      \x{ff05}    %        \x{0025}
+0x26    ＆      \x{ff06}    &amp;        \x{0026}
+0x27    ＇      \x{ff07}    '        \x{0027}
+0x28    （      \x{ff08}    (        \x{0028}
+0x29    ）      \x{ff09}    )        \x{0029}
+0x2a    ＊      \x{ff0a}    *        \x{002a}
+0x2b    ＋      \x{ff0b}    +        \x{002b}
+0x2c    ，      \x{ff0c}    ,        \x{002c}
+0x2d    －      \x{ff0d}    -        \x{002d}
+0x2e    ．      \x{ff0e}    .        \x{002e}
+0x2f    ／      \x{ff0f}    /        \x{002f}
+0x30    ０      \x{ff10}    0        \x{0030}
+0x31    １      \x{ff11}    1        \x{0031}
+0x32    ２      \x{ff12}    2        \x{0032}
+0x33    ３      \x{ff13}    3        \x{0033}
+0x34    ４      \x{ff14}    4        \x{0034}
+0x35    ５      \x{ff15}    5        \x{0035}
+0x36    ６      \x{ff16}    6        \x{0036}
+0x37    ７      \x{ff17}    7        \x{0037}
+0x38    ８      \x{ff18}    8        \x{0038}
+0x39    ９      \x{ff19}    9        \x{0039}
+0x3a    ：      \x{ff1a}    :        \x{003a}
+0x3b    ；      \x{ff1b}    ;        \x{003b}
+0x3c    ＜      \x{ff1c}    &lt;        \x{003c}
+0x3d    ＝      \x{ff1d}    =        \x{003d}
+0x3e    ＞      \x{ff1e}    &gt;        \x{003e}
+0x3f    ？      \x{ff1f}    ?        \x{003f}
+0x40    ＠      \x{ff20}    @        \x{0040}
+0x41    Ａ      \x{ff21}    A        \x{0041}
+0x42    Ｂ      \x{ff22}    B        \x{0042}
+0x43    Ｃ      \x{ff23}    C        \x{0043}
+0x44    Ｄ      \x{ff24}    D        \x{0044}
+0x45    Ｅ      \x{ff25}    E        \x{0045}
+0x46    Ｆ      \x{ff26}    F        \x{0046}
+0x47    Ｇ      \x{ff27}    G        \x{0047}
+0x48    Ｈ      \x{ff28}    H        \x{0048}
+0x49    Ｉ      \x{ff29}    I        \x{0049}
+0x4a    Ｊ      \x{ff2a}    J        \x{004a}
+0x4b    Ｋ      \x{ff2b}    K        \x{004b}
+0x4c    Ｌ      \x{ff2c}    L        \x{004c}
+0x4d    Ｍ      \x{ff2d}    M        \x{004d}
+0x4e    Ｎ      \x{ff2e}    N        \x{004e}
+0x4f    Ｏ      \x{ff2f}    O        \x{004f}
+0x50    Ｐ      \x{ff30}    P        \x{0050}
+0x51    Ｑ      \x{ff31}    Q        \x{0051}
+0x52    Ｒ      \x{ff32}    R        \x{0052}
+0x53    Ｓ      \x{ff33}    S        \x{0053}
+0x54    Ｔ      \x{ff34}    T        \x{0054}
+0x55    Ｕ      \x{ff35}    U        \x{0055}
+0x56    Ｖ      \x{ff36}    V        \x{0056}
+0x57    Ｗ      \x{ff37}    W        \x{0057}
+0x58    Ｘ      \x{ff38}    X        \x{0058}
+0x59    Ｙ      \x{ff39}    Y        \x{0059}
+0x5a    Ｚ      \x{ff3a}    Z        \x{005a}
+0x5b    ［      \x{ff3b}    [        \x{005b}
+0x5c    ＼      \x{ff3c}    \        \x{005c}
+0x5d    ］      \x{ff3d}    ]        \x{005d}
+0x5e    ＾      \x{ff3e}    ^        \x{005e}
+0x5f    ＿      \x{ff3f}    _        \x{005f}
+0x60    ｀      \x{ff40}    `        \x{0060}
+0x61    ａ      \x{ff41}    a        \x{0061}
+0x62    ｂ      \x{ff42}    b        \x{0062}
+0x63    ｃ      \x{ff43}    c        \x{0063}
+0x64    ｄ      \x{ff44}    d        \x{0064}
+0x65    ｅ      \x{ff45}    e        \x{0065}
+0x66    ｆ      \x{ff46}    f        \x{0066}
+0x67    ｇ      \x{ff47}    g        \x{0067}
+0x68    ｈ      \x{ff48}    h        \x{0068}
+0x69    ｉ      \x{ff49}    i        \x{0069}
+0x6a    ｊ      \x{ff4a}    j        \x{006a}
+0x6b    ｋ      \x{ff4b}    k        \x{006b}
+0x6c    ｌ      \x{ff4c}    l        \x{006c}
+0x6d    ｍ      \x{ff4d}    m        \x{006d}
+0x6e    ｎ      \x{ff4e}    n        \x{006e}
+0x6f    ｏ      \x{ff4f}    o        \x{006f}
+0x70    ｐ      \x{ff50}    p        \x{0070}
+0x71    ｑ      \x{ff51}    q        \x{0071}
+0x72    ｒ      \x{ff52}    r        \x{0072}
+0x73    ｓ      \x{ff53}    s        \x{0073}
+0x74    ｔ      \x{ff54}    t        \x{0074}
+0x75    ｕ      \x{ff55}    u        \x{0075}
+0x76    ｖ      \x{ff56}    v        \x{0076}
+0x77    ｗ      \x{ff57}    w        \x{0077}
+0x78    ｘ      \x{ff58}    x        \x{0078}
+0x79    ｙ      \x{ff59}    y        \x{0079}
+0x7a    ｚ      \x{ff5a}    z        \x{007a}
+0x7b    ｛      \x{ff5b}    {        \x{007b}
+0x7c    ｜      \x{ff5c}    |        \x{007c}
+0x7d    ｝      \x{ff5d}    }        \x{007d}
+0x7e    ～      \x{ff5e}    ~        \x{007e}</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>FullHalfAngleClass</receiver>
+   <slot>on_highFullChar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>147</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>267</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>FullHalfAngleClass</receiver>
+   <slot>on_highHalfChar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>83</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>FullHalfAngleClass</receiver>
+   <slot>on_deleteAllFullChar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>178</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>229</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>FullHalfAngleClass</receiver>
+   <slot>on_deleteAllHalfChar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>215</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>291</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>FullHalfAngleClass</receiver>
+   <slot>on_convertFullToHalf()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>233</x>
+     <y>287</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>359</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>FullHalfAngleClass</receiver>
+   <slot>on_convertHalfToFull()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>339</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>264</x>
+     <y>395</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_highFullChar()</slot>
+  <slot>on_highHalfChar()</slot>
+  <slot>on_deleteAllFullChar()</slot>
+  <slot>on_deleteAllHalfChar()</slot>
+  <slot>on_convertFullToHalf()</slot>
+  <slot>on_convertHalfToFull()</slot>
+ </slots>
+</ui>

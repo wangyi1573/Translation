@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts;xlf</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts;xlf</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="draglineedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="encodetrans.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filecutunion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filedircopy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filelistwin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fullhalfangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="instanceobj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="maintool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ndd108toolexport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="progresswin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="renamewin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="timestamptrans.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tradsimptrans.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volcengineapi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volcenginetranslate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="volcenginetransconfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="opencc\Export.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="opencc\SimpleConverter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="draglineedit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="encodetrans.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="filecutunion.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="filedircopy.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="filelistwin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="fullhalfangle.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="instanceobj.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="maintool.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="opencc\opencc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="progresswin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="renamewin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="timestamptrans.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="tradsimptrans.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="volcengineapi.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="volcenginetranslate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="volcenginetransconfig.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\realcompare_zh.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="encodetrans.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="filecutunion.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="filedircopy.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="filelistwin.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="fullhalfangle.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="maintool.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="progresswin.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="renamewin.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="timestamptrans.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="tradsimptrans.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="volcenginetranslate.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="volcenginetransconfig.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>

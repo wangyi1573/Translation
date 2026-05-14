@@ -1,0 +1,160 @@
+﻿#include "Qsci/qscilexertext.h"
+#include "Qsci/qsciscintillabase.h"
+
+#include <qcolor.h>
+#include <qfont.h>
+#include <qsettings.h>
+
+#if defined(Q_OS_WIN)
+	QFont QsciLexerText::s_defaultTxtFont("Courier New", QsciLexer::s_defaultFontSize);
+#elif defined(Q_OS_MAC)
+    QFont QsciLexerText::s_defaultTxtFont("STSong",14);
+#else
+    QFont QsciLexerText::s_defaultTxtFont("Courier 10 Pitch", 12);
+#endif
+
+
+QsciLexerText::QsciLexerText(QObject *parent)
+	: QsciLexer(parent)
+{
+	setLexerId(L_TXT);
+	m_commentSymbol = "#";
+}
+
+QsciLexerText::~QsciLexerText()
+{
+}
+
+// Returns the language name.
+const char* QsciLexerText::language() const
+{
+	return "TXT";
+}
+
+// Returns the lexer name.
+const char *QsciLexerText::lexer() const
+{
+	return "txt";
+}
+
+
+// Returns the foreground colour of the text for a style.
+QColor QsciLexerText::defaultColor(int style) const
+{
+	//if (style == VerbatimString)
+	//	return QColor(0x00, 0x7f, 0x00);
+	if (style == Keyword)
+	{
+		return QColor(0x00, 0x00, 0xff);
+	}
+
+	return QsciLexer::defaultColor(style);
+}
+
+
+// Returns the end-of-line fill for a style.
+bool QsciLexerText::defaultEolFill(int style) const
+{
+	//if (style == VerbatimString)
+	//	return true;
+
+	return QsciLexer::defaultEolFill(style);
+}
+
+void QsciLexerText::setGlobalDefaultFont(const QFont & font)
+{
+	s_defaultTxtFont = font;
+}
+
+// Returns the font of the text for a style.
+QFont QsciLexerText::defaultFont(int style) const
+{
+	switch (style)
+	{
+	case Default:
+		return s_defaultTxtFont; 
+		break;
+	case Ascii:
+		return s_defaultTxtFont;
+		break;
+	case Keyword:
+#if defined(Q_OS_WIN)
+	{
+		QFont f("Courier New", 14);
+		f.setBold(true);
+		return f;
+	}
+#elif defined(Q_OS_MAC)
+	{
+		QFont f("Courier New", 18);
+		f.setBold(true);
+		return f;
+	}
+#else
+	{
+		QFont f(s_defaultTxtFont);
+		f.setBold(true);
+		return f;
+	}
+#endif
+			break;
+	default:
+		break;
+}
+	return s_defaultTxtFont;
+}
+
+
+// Returns the set of keywords.
+const char* QsciLexerText::keywords(int set)
+{
+	if (m_isUserDefineKeyword)
+	{
+		//如果是自定义用户关键字，则根据语言tag获取。只实现set=1的一组
+		if (set == 1)
+		{
+			return getUserDefineKeywords();
+		}
+	}
+	return 0;
+}
+
+
+// Returns the user name of a style.
+QString QsciLexerText::description(int style) const
+{
+	switch (style)
+	{
+	case Default:
+		return tr("Chinese And Others");
+		break;
+	case Ascii:
+		return tr("Ascii");
+		break;
+	case Keyword:
+		if (m_isUserDefineKeyword)
+		{
+			return tr("Keyword");
+		}
+		break;
+	default:
+		break;
+	}
+	return QString();
+}
+
+
+// Returns the background colour of the text for a style.
+QColor QsciLexerText::defaultPaper(int style) const
+{
+	//if (style == VerbatimString)
+	//	return QColor(0xe0, 0xff, 0xe0);
+
+	return QsciLexer::defaultPaper(style);
+}
+
+// Return the lexer identifier.
+//int QsciLexerText::lexerId() const
+//{
+//	return L_TXT;
+//}

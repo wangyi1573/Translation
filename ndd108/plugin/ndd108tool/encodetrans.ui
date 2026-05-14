@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EncodeTransClass</class>
+ <widget class="QWidget" name="EncodeTransClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>950</width>
+    <height>554</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EncodeTrans</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0,0">
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Src Text</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QPlainTextEdit" name="srcTextEdit">
+          <property name="undoRedoEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>Dst Text</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QPlainTextEdit" name="dstTextEdit">
+          <property name="undoRedoEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="unicodeTab">
+      <attribute name="title">
+       <string>unicode</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="utoAbt">
+         <property name="text">
+          <string>Unicode to Text</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="atoUbt">
+         <property name="text">
+          <string>Text to Unicode</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Select Unicode To Text</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="utf8Tab">
+      <attribute name="title">
+       <string>utf8</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="3">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Utf8 to Text</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Text to Utf8</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clearBt">
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="swapBt">
+       <property name="text">
+        <string>Swap</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="copyClipBt">
+       <property name="text">
+        <string>Copy Dst To ClipBoard </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>atoUbt</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_asciiToUnicode()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>505</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-2</x>
+     <y>410</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>utoAbt</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_unicodeToAscii()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>505</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_textToUtf8()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>505</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>522</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_utf8ToText()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>91</x>
+     <y>505</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>440</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearBt</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>344</x>
+     <y>536</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>180</x>
+     <y>520</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>swapBt</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_swap()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>444</x>
+     <y>541</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>525</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>copyClipBt</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_copyClip()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>573</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>725</x>
+     <y>523</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>EncodeTransClass</receiver>
+   <slot>on_selectUnicodeToText()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>291</x>
+     <y>494</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>943</x>
+     <y>522</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_asciiToUnicode()</slot>
+  <slot>on_unicodeToAscii()</slot>
+  <slot>on_unicodeToGbk()</slot>
+  <slot>on_gbkToUnicode()</slot>
+  <slot>on_textToUtf8()</slot>
+  <slot>on_utf8ToText()</slot>
+  <slot>on_clear()</slot>
+  <slot>on_swap()</slot>
+  <slot>on_copyClip()</slot>
+  <slot>on_selectUnicodeToText()</slot>
+ </slots>
+</ui>

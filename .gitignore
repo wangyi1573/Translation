@@ -1,0 +1,29 @@
+# Qt build artifacts
+*.pro.user
+*.pro.user.*
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+*.o
+Makefile*
+.qmake.stash
+*.Debug
+*.Release
+object_script.*
+
+# IDE
+.vs/
+.vscode/
+*.suo
+*.user
+*.sln
+*.ncb
+*.sdf
+*.aps
+*.cachefile
+ipch/
+*.VC.db
+*.VC.opendb
+
+# NDD plugin build
+ndd108/x64/

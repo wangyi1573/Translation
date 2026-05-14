@@ -1,0 +1,53 @@
+-IC:/QT5152/5.15.2/MSVC2019_64/mkspecs/win32-msvc
+-ID:/CCNotePad/plugin/ndd108tool
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/include
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/qscint
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/src
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/qscint
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/src
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/Qsci
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/qscint
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/scintilla
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/src
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/qscint
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/scintilla
+-ID:/
+-ID:/CCNotePad/plugin/ndd108tool/include
+-IC:/QT5152/5.15.2/MSVC2019_64/include
+-IC:/QT5152/5.15.2/MSVC2019_64/include/QtWidgets
+-IC:/QT5152/5.15.2/MSVC2019_64/include/QtGui
+-IC:/QT5152/5.15.2/MSVC2019_64/include/QtANGLE
+-IC:/QT5152/5.15.2/MSVC2019_64/include/QtCore
+-IC:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include
+-IC:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt
+-IC:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt
