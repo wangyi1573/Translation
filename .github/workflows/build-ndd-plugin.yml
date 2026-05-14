@@ -30,13 +30,26 @@ jobs:
         with:
           arch: x64
 
-      - name: Run qmake
+      - name: Install OpenCC via vcpkg
         run: |
-          cd ndd108\plugin\ndd108tool
-          qmake ndd108tool.pro CONFIG+=release
+          vcpkg install opencc:x64-windows
+          vcpkg integrate install
         shell: cmd
 
-      - name: Build (compile only)
+      - name: Build qscintilla (qmyedit_qt5 library)
+        run: |
+          cd ndd108\qscint\src
+          qmake qscintilla.pro CONFIG+=release
+          nmake /F Makefile.Release
+        shell: cmd
+
+      - name: Run qmake for ndd108tool
+        run: |
+          cd ndd108\plugin\ndd108tool
+          qmake ndd108tool.pro CONFIG+=release "INCLUDEPATH += C:/vcpkg/installed/x64-windows/include" "LIBS += -LC:/vcpkg/installed/x64-windows/lib"
+        shell: cmd
+
+      - name: Build ndd108tool plugin
         run: |
           cd ndd108\plugin\ndd108tool
           nmake /F Makefile.Release

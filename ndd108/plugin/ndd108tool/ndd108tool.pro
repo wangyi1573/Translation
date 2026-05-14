@@ -66,7 +66,7 @@ win32{
 		if(CONFIG(Debug, Debug|Release)){
 			LIBS += -Llib -lopencc
 		}else{
-			LIBS += --Llib -lopencc
+			LIBS += -Llib -lopencc
 		}
    }else{
 		if(CONFIG(Debug, Debug|Release)){
