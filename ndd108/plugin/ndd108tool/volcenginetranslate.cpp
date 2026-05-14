@@ -41,7 +41,7 @@ VolcengineTranslate::VolcengineTranslate(QWidget* parent, QWidget* pNotepad)
             if (edit) {
                 QString selText = edit->selectedText();
                 if (!selText.isEmpty()) {
-                    edit->replace(selText, translated);
+                    edit->replaceSelectedText(translated);
                 }
             }
         }

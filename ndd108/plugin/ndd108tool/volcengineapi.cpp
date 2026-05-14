@@ -43,8 +43,8 @@ QString VolcengineApi::hmacSha256Hex(const QString& key, const QString& data) {
     QByteArray iPad(blockSize, 0x36);
     QByteArray oPad(blockSize, 0x5c);
     for (int i = 0; i < blockSize; ++i) {
-        iPad[i] ^= keyBytes[i];
-        oPad[i] ^= keyBytes[i];
+        iPad[i] = iPad[i] ^ keyBytes[i];
+        oPad[i] = oPad[i] ^ keyBytes[i];
     }
 
     QByteArray innerHash = QCryptographicHash::hash(iPad + data.toUtf8(), QCryptographicHash::Sha256);
@@ -146,7 +146,13 @@ static QByteArray escapeJsonString(const QString& str) {
         case '\t': result += "\\t"; break;
         case '\b': result += "\\b"; break;
         case '\f': result += "\\f"; break;
-        default:   result += c.toUtf8(); break;
+        default:
+            if (c.unicode() < 0x80) {
+                result += (char)c.unicode();
+            } else {
+                result += QString(c).toUtf8();
+            }
+            break;
         }
     }
     return result;

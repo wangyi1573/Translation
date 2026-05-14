@@ -39,10 +39,7 @@ jobs:
       - name: Build (compile only)
         run: |
           cd ndd108\plugin\ndd108tool
-          nmake /F Makefile.Release 2>&1 | findstr /V /C:"opencc" /C:"LNK" /C:"Creating library"
-          if %errorlevel% neq 0 (
-            echo ##[warning] Build completed with warnings (opencc link errors are expected)
-          )
+          nmake /F Makefile.Release
         shell: cmd
 
       - name: Upload build artifacts
