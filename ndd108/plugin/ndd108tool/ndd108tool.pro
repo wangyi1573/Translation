@@ -64,15 +64,15 @@ unix {
 win32{
 	if(contains(QMAKE_HOST.arch, x86_64)){
 		if(CONFIG(Debug, Debug|Release)){
-			LIBS += -Llib -lopencc
+			LIBS += -Llib -lopencc -lmarisa
 		}else{
-			LIBS += -Llib -lopencc
+			LIBS += -Llib -lopencc -lmarisa
 		}
    }else{
 		if(CONFIG(Debug, Debug|Release)){
-			LIBS += -Llib -lopencc
+			LIBS += -Llib -lopencc -lmarisa
 		}else{
-			LIBS += -Llib -lopencc
+			LIBS += -Llib -lopencc -lmarisa
 		}
 	}
 }
