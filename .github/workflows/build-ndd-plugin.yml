@@ -30,12 +30,12 @@ jobs:
         with:
           arch: x64
 
-      - name: Install OpenCC via vcpkg (static)
+      - name: Install OpenCC via vcpkg (dynamic, MD CRT)
         run: |
-          vcpkg install opencc:x64-windows-static
+          vcpkg install opencc:x64-windows --allow-unsupported
           if not exist "ndd108\plugin\ndd108tool\lib" mkdir "ndd108\plugin\ndd108tool\lib"
-          copy "C:\vcpkg\installed\x64-windows-static\lib\opencc.lib" "ndd108\plugin\ndd108tool\lib\opencc.lib"
-          copy "C:\vcpkg\installed\x64-windows-static\lib\marisa.lib" "ndd108\plugin\ndd108tool\lib\marisa.lib"
+          copy "C:\vcpkg\installed\x64-windows\lib\opencc.lib" "ndd108\plugin\ndd108tool\lib\opencc.lib"
+          copy "C:\vcpkg\installed\x64-windows\lib\marisa.lib" "ndd108\plugin\ndd108tool\lib\marisa.lib"
         shell: cmd
 
       - name: Run qmake for ndd108tool
@@ -58,4 +58,5 @@ jobs:
           path: |
             ndd108/x64/Release/plugin/ndd108tool.dll
             C:/vcpkg/installed/x64-windows/bin/opencc.dll
+            C:/vcpkg/installed/x64-windows/bin/marisa.dll
           if-no-files-found: ignore
