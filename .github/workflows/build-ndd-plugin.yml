@@ -53,8 +53,13 @@ jobs:
       - name: Collect artifacts
         run: |
           if not exist "artifacts" mkdir "artifacts"
+          dir "C:\vcpkg\installed\x64-windows\bin\*.dll"
           copy "C:\vcpkg\installed\x64-windows\bin\opencc.dll" "artifacts\opencc.dll"
-          copy "C:\vcpkg\installed\x64-windows\bin\marisa.dll" "artifacts\marisa.dll"
+          if exist "C:\vcpkg\installed\x64-windows\bin\marisa.dll" (
+            copy "C:\vcpkg\installed\x64-windows\bin\marisa.dll" "artifacts\marisa.dll"
+          ) else (
+            echo marisa.dll not found in vcpkg bin directory - may be statically linked into opencc.dll
+          )
         shell: cmd
 
       - name: Upload build artifacts
