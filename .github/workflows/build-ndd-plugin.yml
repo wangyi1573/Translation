@@ -50,6 +50,13 @@ jobs:
           nmake /F Makefile.Release
         shell: cmd
 
+      - name: Collect artifacts
+        run: |
+          if not exist "artifacts" mkdir "artifacts"
+          copy "C:\vcpkg\installed\x64-windows\bin\opencc.dll" "artifacts\opencc.dll"
+          copy "C:\vcpkg\installed\x64-windows\bin\marisa.dll" "artifacts\marisa.dll"
+        shell: cmd
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -57,6 +64,6 @@ jobs:
           name: ndd108tool-build
           path: |
             ndd108/x64/Release/plugin/ndd108tool.dll
-            C:/vcpkg/installed/x64-windows/bin/opencc.dll
-            C:/vcpkg/installed/x64-windows/bin/marisa.dll
+            artifacts/opencc.dll
+            artifacts/marisa.dll
           if-no-files-found: ignore
